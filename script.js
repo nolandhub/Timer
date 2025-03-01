@@ -87,9 +87,6 @@ function startPauseTimer() {
                 if (remainingTime === 12) {
                     dingDongSound.play();
                 }
-                if (remainingTime === 11) {
-                    dingDongSound.pause();
-                }
 
                 if (remainingTime <= 5) {
                     startSound.play();
