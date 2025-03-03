@@ -154,6 +154,42 @@ button:active {
     background-color: #dc1428;
 }
 
+.team {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    height: 160px;
+
+}
+
+.editable-team {
+    outline: none;
+    /* Loại bỏ viền khi chỉnh sửa */
+    cursor: text;
+    /* Đổi con trỏ chuột khi hover vào */
+
+    display: inline-block;
+    /* Để phần tử co giãn theo nội dung */
+    min-width: 50px;
+    /* Đặt kích thước tối thiểu */
+    max-width: 100%;
+    /* Giới hạn chiều rộng */
+    font-size: 7rem;
+    /* Kích thước chữ mặc định */
+    text-align: center;
+    /* Căn giữa nội dung */
+
+
+}
+
+
+
 
 .container-dot {
     top: 170px;
@@ -186,25 +222,93 @@ button:active {
 }
 
 
-.team {
+
+.container-score {
+    top: 250px;
+    position: absolute;
     display: flex;
+    z-index: 100;
+    gap: 718px;
+    padding: 10px 20px;
+}
+
+.score-input {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    gap: 10px;
+    text-align: center;
     justify-content: center;
     align-items: center;
-    font-size: 6rem;
+}
+
+.container-score:hover .score-input {
+    visibility: visible;
+    /* Hiện khi hover */
+    opacity: 1;
+}
+
+.score {
+    width: 70px;
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
     font-weight: bold;
-    color: white;
+    border: none;
+    border-radius: 15%;
+    background-color: rgba(0, 255, 60, 0.942);
+    color: #ffff21;
     cursor: pointer;
-    width: 50%;
-    height: 160px;
+
+
+
 
 }
 
-.editable-team {
+/* Ẩn mũi tên tăng/giảm trên trình duyệt Chrome, Edge, Safari */
+.score::-webkit-inner-spin-button,
+.score::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+/* Đổi màu khi focus */
+.score:focus {
     outline: none;
-    /* Loại bỏ viền khi chỉnh sửa */
-    cursor: text;
-    /* Đổi con trỏ chuột khi hover vào */
+    background-color: rgb(233, 163, 72);
 }
+
+
+
+.container-show-Score {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    top: 0px;
+    background-color: #FFC107;
+
+}
+
+.showScoreBlue {
+    font-weight: bolder;
+    width: 55px;
+    background-color: #007BFF;
+    /* Xanh dương đậm */
+    color: white;
+    border: 2px solid #FFFFFF;
+    /* Viền trắng để nổi bật */
+}
+
+.showScoreRed {
+    font-weight: bolder;
+    width: 55px;
+    background-color: #DC3545;
+    /* Đỏ đậm */
+    color: white;
+    border: 2px solid #FFFFFF;
+    /* Viền trắng để nổi bật */
+}
+
 
 
 

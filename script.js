@@ -88,6 +88,7 @@ function startPauseTimer() {
                     dingDongSound.play();
                 }
 
+
                 if (remainingTime <= 5) {
                     startSound.play();
                 }
@@ -126,9 +127,7 @@ function resetTimer() {
     updateDisplay();
     startPauseBtn.textContent = "▶";
 
-    document.querySelectorAll(".dot").forEach(dot => {
-        dot.classList.remove("active"); // Xóa class active
-    });
+
 
 }
 
@@ -254,7 +253,7 @@ document.addEventListener("keydown", function (event) {
 
 
 document.addEventListener("keydown", function (event) {
-    if (event.code === "Space") {
+    if (event.code === "Space" && document.activeElement.contentEditable !== "true") {
         event.preventDefault();
         startPauseTimer();
         quickSetContainer.style.display = "none";
@@ -262,14 +261,83 @@ document.addEventListener("keydown", function (event) {
 });
 
 
+
+
+
 document.addEventListener("keydown", function (event) {
-    if (event.key.toLowerCase() === "r") { // Kiểm tra nếu bấm "B" hoặc "b"
+    if (event.key.toLowerCase() === "r" && document.activeElement.contentEditable !== "true") {
         event.preventDefault();
         resetTimer();
         quickSetContainer.style.display = "flex";
-
     }
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Lấy tất cả các input điểm số của từng đội
+    const redInputs = document.querySelectorAll("#redScore .score");
+    const blueInputs = document.querySelectorAll("#blueScore .score");
+
+    // Lấy phần tử hiển thị tổng điểm
+    const redScoreDisplay = document.getElementById("Score-red");
+    const blueScoreDisplay = document.getElementById("Score-blue");
+
+    // Hàm tính tổng điểm của một team
+    function updateTeamScore(inputs, displayElement) {
+        let totalScore = 0;
+        inputs.forEach(input => {
+            totalScore += parseInt(input.value) || 0; // Chuyển đổi sang số, nếu không hợp lệ thì là 0
+        });
+        displayElement.textContent = totalScore;
+    }
+
+    // Thêm sự kiện lắng nghe khi nhập số vào input của Red Team
+    redInputs.forEach(input => {
+        input.addEventListener("input", function () {
+            updateTeamScore(redInputs, redScoreDisplay);
+        });
+    });
+
+    // Thêm sự kiện lắng nghe khi nhập số vào input của Blue Team
+    blueInputs.forEach(input => {
+        input.addEventListener("input", function () {
+            updateTeamScore(blueInputs, blueScoreDisplay);
+        });
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const redInputs = document.querySelectorAll("#redScore .score");
+    const blueInputs = document.querySelectorAll("#blueScore .score");
+    const redScoreDisplay = document.getElementById("Score-red");
+    const blueScoreDisplay = document.getElementById("Score-blue");
+
+    // Hàm reset điểm số
+    function resetScores() {
+        // Reset các ô input về 0
+        redInputs.forEach(input => input.value = 0);
+        blueInputs.forEach(input => input.value = 0);
+
+        // Reset tổng điểm hiển thị về 0
+        redScoreDisplay.textContent = 0;
+        blueScoreDisplay.textContent = 0;
+    }
+
+    // Lắng nghe tổ hợp phím Ctrl + R
+    document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey && event.key === "r") {
+            event.preventDefault(); // Ngăn chặn reload trang
+            document.querySelectorAll(".dot").forEach(dot => {
+                dot.classList.remove("active"); // Xóa class active
+            });
+            resetScores(); // Gọi hàm reset
+        }
+    });
+});
+
+
 
 
 // Kích hoạt chỉnh sửa cho phút và giây
