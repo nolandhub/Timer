@@ -5,6 +5,8 @@ const startPauseBtn = document.getElementById("startPause");
 const resetBtn = document.getElementById("reset");
 const add10sBtn = document.getElementById("add10s");
 
+let disableSoundAt12 = false;
+
 
 const startSound = new Audio("sound/countDown5s_perRound.mp3");
 const dingDongSound = new Audio("sound/big_Ding.mp3");
@@ -73,47 +75,6 @@ function updateDisplay() {
 
 
 
-
-// Bắt đầu hoặc tạm dừng đếm ngược
-// function startPauseTimer() {
-//     if (isRunning) {
-//         startSound.pause();
-//         clearInterval(timerInterval);
-//         startPauseBtn.textContent = "▶"; // Play icon
-
-//     } else {
-//         timerInterval = setInterval(() => {
-//             if (remainingTime > 0) {
-//                 remainingTime--;
-//                 updateDisplay();
-
-//                 if (remainingTime === 12) {
-//                     dingDongSound.play();
-//                 }
-
-
-//                 if (remainingTime <= 5) {
-//                     startSound.play();
-//                 }
-
-//                 if (remainingTime <= 0) {
-//                     startSound.pause();
-//                 }
-
-//             } else {
-//                 clearInterval(timerInterval);
-//                 isRunning = false;
-//                 startPauseBtn.textContent = "▶";
-
-
-//             }
-//         }, 1000);
-//         startPauseBtn.textContent = "⏸";
-//     }
-//     isRunning = !isRunning;
-// }
-
-
 // Bắt đầu hoặc tạm dừng đếm ngược
 function startPauseTimer() {
     if (isRunning) {
@@ -127,7 +88,13 @@ function startPauseTimer() {
                 remainingTime--;
                 updateDisplay();
 
-                if (remainingTime === 12) dingDongSound.play();
+                if (remainingTime === 12 && !disableSoundAt12) {
+                    dingDongSound.play();
+                }
+                if (remainingTime === 11 && disableSoundAt12) {
+                    disableSoundAt12 = false;
+                }
+
                 if (remainingTime <= 5) startSound.play();
                 if (remainingTime <= 0) startSound.pause();
             } else {
@@ -375,6 +342,7 @@ document.addEventListener("DOMContentLoaded", function () {
 add10sBtn.addEventListener("click", function () {
     remainingTime += 10; // Thêm 10 giây
     totalTime += 10;
+    disableSoundAt12 = true; // Đặt flag thành true, tức là tạm thời không cho phát âm thanh ở 12s
     updateDisplay();
 });
 
