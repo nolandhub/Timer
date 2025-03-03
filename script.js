@@ -3,6 +3,8 @@ const secondsEl = document.getElementById("seconds");
 const progressCircle = document.querySelector(".progress-ring__circle");
 const startPauseBtn = document.getElementById("startPause");
 const resetBtn = document.getElementById("reset");
+const add10sBtn = document.getElementById("add10s");
+
 
 const startSound = new Audio("sound/countDown5s_perRound.mp3");
 const dingDongSound = new Audio("sound/big_Ding.mp3");
@@ -73,45 +75,75 @@ function updateDisplay() {
 
 
 // Bắt đầu hoặc tạm dừng đếm ngược
+// function startPauseTimer() {
+//     if (isRunning) {
+//         startSound.pause();
+//         clearInterval(timerInterval);
+//         startPauseBtn.textContent = "▶"; // Play icon
+
+//     } else {
+//         timerInterval = setInterval(() => {
+//             if (remainingTime > 0) {
+//                 remainingTime--;
+//                 updateDisplay();
+
+//                 if (remainingTime === 12) {
+//                     dingDongSound.play();
+//                 }
+
+
+//                 if (remainingTime <= 5) {
+//                     startSound.play();
+//                 }
+
+//                 if (remainingTime <= 0) {
+//                     startSound.pause();
+//                 }
+
+//             } else {
+//                 clearInterval(timerInterval);
+//                 isRunning = false;
+//                 startPauseBtn.textContent = "▶";
+
+
+//             }
+//         }, 1000);
+//         startPauseBtn.textContent = "⏸";
+//     }
+//     isRunning = !isRunning;
+// }
+
+
+// Bắt đầu hoặc tạm dừng đếm ngược
 function startPauseTimer() {
     if (isRunning) {
         startSound.pause();
         clearInterval(timerInterval);
-        startPauseBtn.textContent = "▶"; // Play icon
+        startPauseBtn.textContent = "▶"; // Hiển thị icon Play
+        add10sBtn.style.display = "inline-block"; // Hiện nút +10s khi tạm dừng
     } else {
         timerInterval = setInterval(() => {
             if (remainingTime > 0) {
                 remainingTime--;
                 updateDisplay();
 
-                if (remainingTime === 12) {
-                    dingDongSound.play();
-                }
-
-
-                if (remainingTime <= 5) {
-                    startSound.play();
-                }
-
-                if (remainingTime <= 0) {
-                    startSound.pause();
-                }
-
+                if (remainingTime === 12) dingDongSound.play();
+                if (remainingTime <= 5) startSound.play();
+                if (remainingTime <= 0) startSound.pause();
             } else {
                 clearInterval(timerInterval);
                 isRunning = false;
                 startPauseBtn.textContent = "▶";
-
-
-
-
-
             }
         }, 1000);
         startPauseBtn.textContent = "⏸";
+        add10sBtn.style.display = "none"; // Ẩn nút +10s khi chạy
     }
     isRunning = !isRunning;
 }
+
+
+
 
 // Reset timer
 function resetTimer() {
@@ -218,7 +250,7 @@ document.querySelectorAll('.dot').forEach(dot => {
 
 document.querySelectorAll('.set-time').forEach(button => {
     button.addEventListener('click', function () {
-        const time = parseInt(this.getAttribute('data-time')); // Lấy số giây từ data-time
+        const time = parseInt(this.getAttribute('data-time'));
         setTimeDirectly(time);
     });
 });
@@ -335,6 +367,15 @@ document.addEventListener("DOMContentLoaded", function () {
             resetScores(); // Gọi hàm reset
         }
     });
+});
+
+
+
+
+add10sBtn.addEventListener("click", function () {
+    remainingTime += 10; // Thêm 10 giây
+    totalTime += 10;
+    updateDisplay();
 });
 
 
